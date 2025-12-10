@@ -18,6 +18,12 @@ Use the [Collective NuttyB Configurator](https://bar-nuttyb-collective.github.io
 
 ## 🛠️ Development
 
+### Install dependencies
+
+```bash
+bun install
+```
+
 ### Building Tweaks
 
 Whenever you make changes to the tweak source files, you need to generate the Lua bundle that Configurator will use. You can do this by running:
