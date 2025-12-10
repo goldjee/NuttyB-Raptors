@@ -52,7 +52,7 @@ jobs:
         run: bun install
 
       - name: Generate Lua bundle
-        run: bun run sync .
+        run: bun run sync -p .
 
       - name: Check if the bundle is sufficient
         run: bun run bundle-test
