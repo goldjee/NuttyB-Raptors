@@ -18,13 +18,26 @@ Use the [Collective NuttyB Configurator](https://bar-nuttyb-collective.github.io
 
 ## 🛠️ Development
 
-### Install dependencies
+### Prerequisites
+- Install Bun.
+- Clone this repository.
+- Install dependencies.
 
 ```bash
 bun install
 ```
 
-### Building Tweaks
+### Run locally (live reload)
+
+Use a Next web server with live reload for development.
+
+```bash
+bun dev
+```
+
+The app will be available at http://localhost:3000
+
+### Sync Lua data
 
 Whenever you make changes to the tweak source files, you need to generate the Lua bundle that Configurator will use. You can do this by running:
 
@@ -32,19 +45,23 @@ Whenever you make changes to the tweak source files, you need to generate the Lu
 bun run sync .
 ```
 
-You can test that the generated bundle is sufficient by running:
+Sync script supports pulling latest Lua files from either a local path or a GitHub repository. For more details, see the script's command-line help:
+
+```bash
+bun sync --help
+```
+
+### Verify Lua bundle
+
+To verify the generated Lua bundle, run the following command:
 
 ```bash
 bun run bundle-test
 ```
 
-### Running a Local Dev Server for Configurator
+### Deployment (GitHub Pages)
 
-To test your changes in the Configurator, you can run a local development server with:
-
-```bash
-bun run dev
-```
+Deployment is automated using GitHub Actions. Pushes to the `main` branch will trigger a build and deploy the site to GitHub Pages. By default, it uses the repository name to define the base path for the web application. If you want to use a custom base path, you can set the `BASE_PATH` repository variable in your repository settings. Note that you should not include a leading slash in the `BASE_PATH` value.
 
 ## 👥 Contributors
 
