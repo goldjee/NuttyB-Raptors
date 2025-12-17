@@ -1,0 +1,44 @@
+git.sr.ht:
+  enabled: true
+  allow-refs:
+    - refs/heads/main
+image: alpine/3.22
+oauth: pages.sr.ht/PAGES:RW
+sources:
+- https://git.sr.ht/~jochumdev/nuttyb
+packages:
+# To install bun
+- ca-certificates
+- curl
+- bash
+
+# For bun
+- libgcc
+- libstdc++
+
+# To publish
+- hut
+environment:
+  # For build
+  GITHUB_PAGES: 'true'
+  NEXT_PUBLIC_BASE_PATH: ''
+
+  # Upload
+  site: configurator.nuttyb.org
+tasks:
+- bun: |
+    curl -fsSL https://bun.com/install | bash
+
+- build: |
+    cd nuttyb
+    ~/.bun/bin/bun install
+    ~/.bun/bin/bun run sync -p .
+    ~/.bun/bin/bun run bundle-test
+    ~/.bun/bin/bun run build
+
+- package: |
+    cd "nuttyb/out"
+    tar -cvz . > ../../site.tar.gz
+
+- upload: |
+    hut pages publish -d $site site.tar.gz
