@@ -18,7 +18,7 @@ const Header: React.FC = () => {
     return (
         <PageWrapper>
             <Flex pt='8px' align='center' justify='space-between'>
-                <Title order={1}>NuttyB Collective</Title>
+                <Title order={1}>NuttyB Community</Title>
                 <Flex gap='md' align='baseline'>
                     {links.map((link) => {
                         return (

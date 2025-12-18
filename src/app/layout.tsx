@@ -14,7 +14,7 @@ import PageWrapper from '@/components/page-wrapper';
 import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
-    title: 'NuttyB Collective Configurator',
+    title: 'NuttyB Community Configurator',
 };
 
 export default function RootLayout({

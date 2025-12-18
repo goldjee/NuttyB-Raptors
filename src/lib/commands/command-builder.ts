@@ -31,7 +31,7 @@ function interpolateCommand(
 /**
  * Builds the $rename command for custom lobby naming.
  *
- * Format: $rename Collective NuttyB <Mode> [<user_input>] [<enemyHealth>xHP / <bossHealth>xQHP]
+ * Format: $rename Community NuttyB <Mode> [<user_input>] [<enemyHealth>xHP / <bossHealth>xQHP]
  *
  * @param configuration User's selected configuration
  * @returns The $rename command string, or undefined if no custom name
@@ -44,7 +44,7 @@ function buildRenameCommand(configuration: Configuration): string | undefined {
     const enemyHealth = configuration.enemyHealth;
     const bossHealth = configuration.bossHealth;
 
-    let command = `!rename Collective NuttyB ${mode} `;
+    let command = `!rename Community NuttyB ${mode} `;
     if (difficulty !== 'Default') command += `[${difficulty}] `;
     if (customName) command += `[${customName}] `;
     command += `[${enemyHealth.toString()}HP | ${bossHealth.toString()}QHP]`;

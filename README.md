@@ -1,6 +1,6 @@
-# 🦖 Collective NuttyB
+# 🦖 Community NuttyB
 
-Collective NuttyB is a mod for BAR Raptors and Scavengers on steroids!
+Community NuttyB is a mod for BAR Raptors and Scavengers on steroids!
 
 This is a monorepo that contains:
 - The source code for various tweaks for the NuttyB mod (`lua` directory).
@@ -14,7 +14,7 @@ This is a monorepo that contains:
 ## 🎮 Quick Start for Players
 
 ### Getting the Mod
-Use the [Collective NuttyB Configurator](https://configurator.nuttyb.org) to generate your custom configuration with the tweaks you want.
+Use the [Community NuttyB Configurator](https://configurator.nuttyb.org) to generate your custom configuration with the tweaks you want.
 
 ## 🛠️ Development
 
