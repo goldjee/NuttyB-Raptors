@@ -4,6 +4,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY . /source
 
+# Install git for next.js
+RUN apk --no-cache add git
+
 # build
 RUN cd /source && \
     bun install && \
