@@ -6,7 +6,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { CONFIGURATION_MAPPING } from '@/lib/data/configuration-mapping';
+import {
+    BASE_TWEAKS,
+    CONFIGURATION_MAPPING,
+} from '@/lib/data/configuration-mapping';
 import type { LuaFile } from '@/types/types';
 
 interface Bundle {
@@ -71,12 +74,14 @@ function main(): void {
     console.log(`Bundle SHA: ${bundle.sha}`);
     console.log(`Bundle contains ${bundle.files.length} files\n`);
 
-    // Extract all Lua references from the configuration mapping
-    const luaReferences = extractLuaReferences(CONFIGURATION_MAPPING);
-    const uniqueReferences = luaReferences.toSorted();
+    // Extract all Lua references from the configuration mapping and base tweaks
+    const configReferences = extractLuaReferences(CONFIGURATION_MAPPING);
+    const baseTweaksReferences = extractLuaReferences(BASE_TWEAKS);
+    const allReferences = [...configReferences, ...baseTweaksReferences];
+    const uniqueReferences = [...new Set(allReferences)].toSorted();
 
     console.log(
-        `Found ${uniqueReferences.length} unique Lua file references in configuration mapping\n`
+        `Found ${uniqueReferences.length} unique Lua file references (${configReferences.length} from configuration mapping, ${baseTweaksReferences.length} from base tweaks)\n`
     );
 
     // Create a set of bundle paths for quick lookup
