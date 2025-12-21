@@ -57,7 +57,7 @@ function buildConfigurationView(luaFiles: LuaFile[]): ConfigOptionEntry[] {
             if (tv.tweakdefs && tv.tweakdefs.length > 0) {
                 typesUsed.add('tweakdefs');
                 for (const path of tv.tweakdefs) {
-                    const cleanPath = path.replace(/^~/, '');
+                    const cleanPath = path.replace(/^~/, '').split('{')[0];
                     const content = luaFileMap.get(cleanPath);
                     luaFilePaths.push(cleanPath);
 
@@ -73,7 +73,7 @@ function buildConfigurationView(luaFiles: LuaFile[]): ConfigOptionEntry[] {
             if (tv.tweakunits && tv.tweakunits.length > 0) {
                 typesUsed.add('tweakunits');
                 for (const path of tv.tweakunits) {
-                    const cleanPath = path.replace(/^~/, '');
+                    const cleanPath = path.replace(/^~/, '').split('{')[0];
                     const content = luaFileMap.get(cleanPath);
                     luaFilePaths.push(cleanPath);
 

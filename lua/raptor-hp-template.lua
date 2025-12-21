@@ -1,4 +1,4 @@
---NuttyB v1.52 2X HP
+--NuttyB v1.52 $HP_MULTIPLIER$X HP
 -- bar-nuttyb-collective.github.io/configurator
 for unitName, unitDef in pairs(UnitDefs) do
     if string.sub(unitName, 1, 24) == "raptor_land_swarmer_heal" then
@@ -11,7 +11,7 @@ for unitName, unitDef in pairs(UnitDefs) do
     end
 
     if unitDef.customparams and unitDef.customparams.subfolder == "other/raptors" and unitDef.health and not unitName:match('^raptor_queen_.*') then
-        unitDef.health = unitDef.health * 2
+        unitDef.health = unitDef.health * $HP_MULTIPLIER$
         unitDef.sfxtypes = {}
         unitDef.explodas = unitDef.explodas
     end
@@ -26,7 +26,7 @@ function UnitDef_Post(unitID, unitDef)
     if unitDef.customparams and unitDef.customparams.subfolder == "other/raptors" then
         unitDef.nochasecategory = "OBJECT"
         if unitDef.metalcost and unitDef.health then
-            unitDef.metalcost = math.floor(unitDef.health * 0.35)
+            unitDef.metalcost = math.floor(unitDef.health * (0.75 / $HP_MULTIPLIER$))
         end
     end
 end

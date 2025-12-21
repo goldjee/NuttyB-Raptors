@@ -4,6 +4,7 @@ import {
     allocateCustomTweakSlots,
     packLuaSourcesIntoSlots,
 } from './slot-packer';
+import { processLuaReference } from './template-interpolator';
 import type { LuaFile, TweakValue } from '../../types/types';
 import {
     BASE_COMMANDS,
@@ -61,26 +62,16 @@ export function buildLobbySections(
 
     // Always include always-enabled tweaks
     for (const path of BASE_TWEAKS.tweakdefs) {
-        const luaFilePath = path.replace(/^~/, '');
-        const luaContent = luaFileMap.get(luaFilePath);
+        const luaContent = processLuaReference(path, luaFileMap);
         if (luaContent) {
             tweakdefsSources.push(luaContent.trim());
-        } else {
-            console.warn(
-                `Always-enabled Lua file not found in bundle: ${luaFilePath}`
-            );
         }
     }
 
     for (const path of BASE_TWEAKS.tweakunits) {
-        const luaFilePath = path.replace(/^~/, '');
-        const luaContent = luaFileMap.get(luaFilePath);
+        const luaContent = processLuaReference(path, luaFileMap);
         if (luaContent) {
             tweakunitsSources.push(luaContent.trim());
-        } else {
-            console.warn(
-                `Always-enabled Lua file not found in bundle: ${luaFilePath}`
-            );
         }
     }
 
@@ -108,13 +99,9 @@ export function buildLobbySections(
             if (!paths || paths.length === 0) continue;
 
             for (const path of paths) {
-                const luaFilePath = path.replace(/^~/, '');
-                const luaContent = luaFileMap.get(luaFilePath);
+                const luaContent = processLuaReference(path, luaFileMap);
 
                 if (!luaContent) {
-                    console.warn(
-                        `Lua file not found in bundle: ${luaFilePath} (required by ${configKey})`
-                    );
                     continue;
                 }
 

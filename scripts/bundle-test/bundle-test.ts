@@ -42,7 +42,10 @@ function extractLuaReferences(obj: unknown): string[] {
 
     if (typeof obj === 'string') {
         if (obj.startsWith(LUA_PREFIX)) {
-            references.push(obj.slice(LUA_PREFIX.length));
+            // Strip ~ prefix and any template variables {VAR=value}
+            const withoutPrefix = obj.slice(LUA_PREFIX.length);
+            const basePath = withoutPrefix.split('{')[0]; // Remove {VAR=val} suffix
+            references.push(basePath);
         }
     } else if (Array.isArray(obj)) {
         for (const item of obj) {

@@ -97,24 +97,24 @@ export const CONFIGURATION_MAPPING: ValueMapping = {
         values: {
             Easy: {
                 tweakdefs: [
-                    '~lua/raptor-hp/raptor-hp-1.3x.lua',
-                    '~lua/queen-hp/queen-hp-1.3x.lua',
+                    '~lua/raptor-hp-template.lua{HP_MULTIPLIER=1.3}',
+                    '~lua/queen-hp-template.lua{HP_MULTIPLIER=1.3}',
                     '~lua/cross-faction-t2.lua',
                     '~lua/defences-t4.lua',
                 ],
             },
             Medium: {
                 tweakdefs: [
-                    '~lua/raptor-hp/raptor-hp-1.5x.lua',
-                    '~lua/queen-hp/queen-hp-1.5x.lua',
+                    '~lua/raptor-hp-template.lua{HP_MULTIPLIER=1.5}',
+                    '~lua/queen-hp-template.lua{HP_MULTIPLIER=1.5}',
                     '~lua/cross-faction-t2.lua',
                     '~lua/defences-t4.lua',
                 ],
             },
             Hard: {
                 tweakdefs: [
-                    '~lua/raptor-hp/raptor-hp-3.0x.lua',
-                    '~lua/queen-hp/queen-hp-3.0x.lua',
+                    '~lua/raptor-hp-template.lua{HP_MULTIPLIER=3.0}',
+                    '~lua/queen-hp-template.lua{HP_MULTIPLIER=3.0}',
                 ],
             },
         },
