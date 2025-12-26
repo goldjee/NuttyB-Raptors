@@ -1,6 +1,6 @@
 import luamin from 'lua-format';
 
-import { extractTopComments } from '@/lib/lua-utils';
+import { extractTopComments } from '@/lib/lua-comments';
 
 export function minify(lua: string): string {
     // Extract top comments first (first 3 lines starting with --).

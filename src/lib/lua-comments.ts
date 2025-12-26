@@ -36,5 +36,5 @@ export function extractTopComments(content: string): string {
         // Skip blank lines (before, within, and after comment block)
     }
 
-    return out;
+    return out.trim();
 }

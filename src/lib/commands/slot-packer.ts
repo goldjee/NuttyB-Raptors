@@ -5,7 +5,7 @@ import {
     MAX_SLOTS_PER_TYPE,
     TARGET_SLOT_SIZE,
 } from '../data/configuration-mapping';
-import { extractTopComments, stripCommentPrefix } from '../lua-utils';
+import { extractTopComments, stripCommentPrefix } from '../lua-comments';
 
 /**
  * Base64 encoding overhead estimate (~37% expansion + padding).
