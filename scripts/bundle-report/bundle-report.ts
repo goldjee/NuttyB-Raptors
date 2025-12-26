@@ -8,7 +8,7 @@ import {
     CONFIGURATION_MAPPING,
 } from '@/lib/data/configuration-mapping';
 
-import { extractLuaReferences, getBundle } from './bundle-utils';
+import { extractLuaReferences, getBundle } from '../../tests/utils/bundle';
 
 /**
  * Main validation function

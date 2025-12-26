@@ -10,10 +10,7 @@ import {
     CONFIGURATION_MAPPING,
 } from '@/lib/data/configuration-mapping';
 
-import {
-    extractLuaReferences,
-    getBundle,
-} from '../scripts/bundle-report/bundle-utils';
+import { extractLuaReferences, getBundle } from './utils/bundle';
 
 describe('Lua Bundle Validation', () => {
     test('Bundle exists and not empty', () => {
