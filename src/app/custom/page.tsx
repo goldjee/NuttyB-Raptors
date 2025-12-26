@@ -16,7 +16,7 @@ export default function Page() {
         <Stack gap='xl'>
             <Stack gap='sm'>
                 <Title order={2}>Custom Tweaks</Title>
-                <Text c='dimmed' size='sm' mt='xs'>
+                <Text c='dimmed' size='sm'>
                     Save your custom tweaks for use in the configurator
                 </Text>
             </Stack>

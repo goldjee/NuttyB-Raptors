@@ -140,19 +140,21 @@ export default function Page() {
 
     return (
         <Stack gap='xl'>
-            <Group justify='space-between'>
-                <Title order={2}>Configuration Data Reference</Title>
-                {sha && (
-                    <Text size='sm' c='dimmed'>
-                        Bundle: <Code>{sha.slice(0, 7)}</Code>
-                    </Text>
-                )}
-            </Group>
-
-            <Text size='sm' c='dimmed'>
-                All configuration options with underlying data.
-                {luaFiles.length > 0 && ` ${luaFiles.length} Lua files loaded.`}
-            </Text>
+            <Stack gap='sm'>
+                <Group justify='space-between'>
+                    <Title order={2}>Configuration Data Reference</Title>
+                    {sha && (
+                        <Text size='sm' c='dimmed'>
+                            Bundle: <Code>{sha.slice(0, 7)}</Code>
+                        </Text>
+                    )}
+                </Group>
+                <Text size='sm' c='dimmed'>
+                    All configuration options with underlying data.
+                    {luaFiles.length > 0 &&
+                        ` ${luaFiles.length} Lua files loaded.`}
+                </Text>
+            </Stack>
 
             {/* Commands Section */}
             {groupedByType.command.length > 0 && (
