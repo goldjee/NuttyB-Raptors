@@ -4,10 +4,8 @@ import React from 'react';
 
 import {
     ActionIcon,
-    Badge,
-    Button,
     Code,
-    Group,
+    Flex,
     Stack,
     Table,
     Text,
@@ -15,9 +13,13 @@ import {
     Tooltip,
 } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
+import { IconCheck, IconCopy, IconX } from '@tabler/icons-react';
 
+import { ICON_STYLE } from '@/components/common/icon-style';
 import { useCustomTweaksContext } from '@/components/contexts/custom-tweaks-context';
 import type { CustomTweak } from '@/lib/command-generator/command-generator';
+
+import TypeBadge from '../../common/type-badge';
 
 interface TweakRowProps {
     tweak: CustomTweak;
@@ -39,40 +41,45 @@ function TweakRow({ tweak, onDelete }: TweakRowProps) {
                 </Text>
             </Table.Td>
             <Table.Td>
-                <Badge
-                    size='sm'
-                    variant='light'
-                    color={tweak.type === 'tweakdefs' ? 'blue' : 'green'}
-                >
-                    {tweak.type}
-                </Badge>
+                <TypeBadge type={tweak.type} />
             </Table.Td>
             <Table.Td>
-                <Group gap='xs' wrap='nowrap'>
-                    <Tooltip label={tweak.code} multiline maw={400}>
-                        <Code style={{ fontSize: '11px', cursor: 'help' }}>
-                            {displayCode}
-                        </Code>
-                    </Tooltip>
-                    <Button
-                        size='xs'
-                        variant='light'
-                        color={clipboard.copied ? 'teal' : 'gray'}
-                        onClick={() => clipboard.copy(tweak.code)}
-                    >
-                        {clipboard.copied ? 'Copied!' : 'Copy'}
-                    </Button>
-                </Group>
-            </Table.Td>
-            <Table.Td>
-                <ActionIcon
-                    color='red'
-                    variant='subtle'
-                    onClick={() => onDelete(tweak.id)}
-                    title='Delete tweak'
+                <Flex
+                    gap='xs'
+                    wrap='nowrap'
+                    align='center'
+                    justify='space-between'
                 >
-                    ✕
-                </ActionIcon>
+                    <Code style={{ fontSize: '11px', cursor: 'help' }}>
+                        {displayCode}
+                    </Code>
+                    <Flex gap='xs' wrap='nowrap' align='center'>
+                        <Tooltip label='Copy'>
+                            <ActionIcon
+                                variant='subtle'
+                                size='sm'
+                                color={clipboard.copied ? 'green' : 'blue'}
+                                onClick={() => clipboard.copy(tweak.code)}
+                            >
+                                {clipboard.copied ? (
+                                    <IconCheck {...ICON_STYLE} />
+                                ) : (
+                                    <IconCopy {...ICON_STYLE} />
+                                )}
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label='Delete'>
+                            <ActionIcon
+                                variant='subtle'
+                                size='sm'
+                                color='red'
+                                onClick={() => onDelete(tweak.id)}
+                            >
+                                <IconX {...ICON_STYLE} />
+                            </ActionIcon>
+                        </Tooltip>
+                    </Flex>
+                </Flex>
             </Table.Td>
         </Table.Tr>
     );
@@ -96,13 +103,12 @@ const SavedTweaksList: React.FC = () => {
         <Stack gap='md'>
             <Title order={3}>Saved Tweaks</Title>
 
-            <Table striped highlightOnHover>
+            <Table striped>
                 <Table.Thead>
                     <Table.Tr>
                         <Table.Th>Description</Table.Th>
                         <Table.Th>Type</Table.Th>
                         <Table.Th>Code</Table.Th>
-                        <Table.Th style={{ width: 50 }}>Actions</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>

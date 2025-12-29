@@ -4,8 +4,8 @@ import { ActionIcon, Card, Flex, Stack, Text, Textarea } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
 import { IconCheck, IconCopy } from '@tabler/icons-react';
 
-import { ICON_STYLE } from '@/components/icon-style';
-import TypeBadge from '@/components/tabs/data/type-badge';
+import { ICON_STYLE } from '@/components/common/icon-style';
+import TypeBadge from '@/components/common/type-badge';
 import type { TweakType } from '@/types/types';
 
 export interface DataItemProps {
