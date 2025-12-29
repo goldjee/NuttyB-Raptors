@@ -6,25 +6,66 @@ import { Code, Group, Stack, Table, Text, Title } from '@mantine/core';
 
 import { useLuaBundleContext } from '@/components/contexts/lua-bundle-context';
 import PageLoader from '@/components/page-loader';
-import DataPreview from '@/components/tabs/data/data-preview';
-import FileList from '@/components/tabs/data/file-list';
-import TypeBadge from '@/components/tabs/data/type-badge';
-import { CONFIGURATION_MAPPING } from '@/lib/command-generator/data/configuration-mapping';
+import DataItem, { type DataItemProps } from '@/components/tabs/data/data-item';
+import {
+    BASE_COMMANDS,
+    BASE_TWEAKS,
+    CONFIGURATION_MAPPING,
+} from '@/lib/command-generator/data/configuration-mapping';
 import { encode } from '@/lib/encoders/base64';
 import type { LuaFile, TweakType } from '@/types/types';
 
 interface ConfigValueEntry {
     value: string;
-    data: string[];
-    luaFilePaths?: string[];
-    missingFiles?: string[];
+    items: DataItemProps[];
 }
 
 interface ConfigOptionEntry {
     configKey: string;
     description: string;
-    types: TweakType[];
     values: ConfigValueEntry[];
+}
+
+function buildBaseItems(luaFiles: LuaFile[]): DataItemProps[] {
+    const luaFileMap = new Map(luaFiles.map((f) => [f.path, f.data]));
+
+    // Base commands - concatenated
+    const commandItem: DataItemProps = {
+        type: 'command' as TweakType,
+        data: BASE_COMMANDS.join('\n'),
+    };
+
+    // Base tweakdefs
+    const tweakdefsItems: DataItemProps[] = BASE_TWEAKS.tweakdefs.map(
+        (path) => {
+            const cleanPath = path.replace(/^~/, '').split('{')[0];
+            const content = luaFileMap.get(cleanPath);
+
+            return {
+                type: 'tweakdefs' as TweakType,
+                source: cleanPath,
+                data: content ? encode(content.trim()) : '',
+                isMissing: !content,
+            };
+        }
+    );
+
+    // Base tweakunits
+    const tweakunitsItems: DataItemProps[] = BASE_TWEAKS.tweakunits.map(
+        (path) => {
+            const cleanPath = path.replace(/^~/, '').split('{')[0];
+            const content = luaFileMap.get(cleanPath);
+
+            return {
+                type: 'tweakunits' as TweakType,
+                source: cleanPath,
+                data: content ? encode(content.trim()) : '',
+                isMissing: !content,
+            };
+        }
+    );
+
+    return [commandItem, ...tweakdefsItems, ...tweakunitsItems];
 }
 
 function buildConfigurationView(luaFiles: LuaFile[]): ConfigOptionEntry[] {
@@ -33,75 +74,61 @@ function buildConfigurationView(luaFiles: LuaFile[]): ConfigOptionEntry[] {
 
     for (const [configKey, mapping] of Object.entries(CONFIGURATION_MAPPING)) {
         const valueEntries: ConfigValueEntry[] = [];
-        const typesUsed = new Set<TweakType>();
 
         for (const [valueKey, tweakValue] of Object.entries(mapping.values)) {
+            const items: DataItemProps[] = [];
+
             if (!tweakValue) {
-                valueEntries.push({ value: valueKey, data: [] });
+                valueEntries.push({ value: valueKey, items: [] });
                 continue;
             }
 
             const tv = tweakValue;
-            const encodedData: string[] = [];
-            const luaFilePaths: string[] = [];
-            const missingFiles: string[] = [];
-            const commandData: string[] = [];
 
-            // Process commands
+            // Process commands - concatenate all into single item
             if (tv.command && tv.command.length > 0) {
-                typesUsed.add('command');
-                commandData.push(...tv.command);
+                items.push({
+                    type: 'command' as TweakType,
+                    data: tv.command.join('\n'),
+                });
             }
 
             // Process tweakdefs Lua files
             if (tv.tweakdefs && tv.tweakdefs.length > 0) {
-                typesUsed.add('tweakdefs');
                 for (const path of tv.tweakdefs) {
                     const cleanPath = path.replace(/^~/, '').split('{')[0];
                     const content = luaFileMap.get(cleanPath);
-                    luaFilePaths.push(cleanPath);
 
-                    if (content) {
-                        encodedData.push(encode(content.trim()));
-                    } else {
-                        missingFiles.push(cleanPath);
-                    }
+                    items.push({
+                        type: 'tweakdefs' as TweakType,
+                        source: cleanPath,
+                        data: content ? encode(content.trim()) : '',
+                        isMissing: !content,
+                    });
                 }
             }
 
             // Process tweakunits Lua files
             if (tv.tweakunits && tv.tweakunits.length > 0) {
-                typesUsed.add('tweakunits');
                 for (const path of tv.tweakunits) {
                     const cleanPath = path.replace(/^~/, '').split('{')[0];
                     const content = luaFileMap.get(cleanPath);
-                    luaFilePaths.push(cleanPath);
 
-                    if (content) {
-                        encodedData.push(encode(content.trim()));
-                    } else {
-                        missingFiles.push(cleanPath);
-                    }
+                    items.push({
+                        type: 'tweakunits' as TweakType,
+                        source: cleanPath,
+                        data: content ? encode(content.trim()) : '',
+                        isMissing: !content,
+                    });
                 }
             }
 
-            // Combine data: commands first, then encoded Lua
-            const allData = [...commandData, ...encodedData];
-
-            valueEntries.push({
-                value: valueKey,
-                data: allData,
-                luaFilePaths:
-                    luaFilePaths.length > 0 ? luaFilePaths : undefined,
-                missingFiles:
-                    missingFiles.length > 0 ? missingFiles : undefined,
-            });
+            valueEntries.push({ value: valueKey, items });
         }
 
         entries.push({
             configKey,
             description: mapping.description,
-            types: [...typesUsed],
             values: valueEntries,
         });
     }
@@ -112,28 +139,12 @@ function buildConfigurationView(luaFiles: LuaFile[]): ConfigOptionEntry[] {
 export default function Page() {
     const { luaFiles, sha, isLoading, error } = useLuaBundleContext();
 
+    const baseItems = useMemo(() => buildBaseItems(luaFiles), [luaFiles]);
+
     const configEntries = useMemo(
         () => buildConfigurationView(luaFiles),
         [luaFiles]
     );
-
-    const groupedByType = useMemo(() => {
-        const groups: Record<TweakType, ConfigOptionEntry[]> = {
-            command: [],
-            tweakdefs: [],
-            tweakunits: [],
-        };
-
-        for (const entry of configEntries) {
-            // Entry can belong to multiple groups if it has multiple types
-            for (const type of entry.types) {
-                groups[type].push(entry);
-            }
-            // If no types detected (empty values), skip
-        }
-
-        return groups;
-    }, [configEntries]);
 
     if (isLoading) return <PageLoader />;
     if (error) return <div>Error: {error.message}</div>;
@@ -156,137 +167,63 @@ export default function Page() {
                 </Text>
             </Stack>
 
-            {/* Commands Section */}
-            {groupedByType.command.length > 0 && (
-                <Stack gap='md'>
-                    <Group gap='xs'>
-                        <Title order={3}>Commands</Title>
-                        <TypeBadge type='command' />
-                    </Group>
-
-                    {groupedByType.command.map((option) => (
-                        <Stack key={option.configKey} gap='xs'>
-                            <Text fw={500}>{option.description}</Text>
-                            <Table striped highlightOnHover withTableBorder>
-                                <Table.Thead>
-                                    <Table.Tr>
-                                        <Table.Th style={{ width: '150px' }}>
-                                            Value
-                                        </Table.Th>
-                                        <Table.Th>Commands</Table.Th>
-                                    </Table.Tr>
-                                </Table.Thead>
-                                <Table.Tbody>
-                                    {option.values.map((v) => (
-                                        <Table.Tr key={v.value}>
-                                            <Table.Td>
-                                                <Code>{v.value}</Code>
-                                            </Table.Td>
-                                            <Table.Td>
-                                                <DataPreview data={v.data} />
-                                            </Table.Td>
-                                        </Table.Tr>
-                                    ))}
-                                </Table.Tbody>
-                            </Table>
-                        </Stack>
+            {/* Base Commands and Tweaks */}
+            <Stack gap='xs'>
+                <Text fw={500}>Base (always included)</Text>
+                <Stack gap='xs'>
+                    {baseItems.map((item, idx) => (
+                        <DataItem
+                            key={`${item.type}-${item.source ?? idx}`}
+                            {...item}
+                        />
                     ))}
                 </Stack>
-            )}
+            </Stack>
 
-            {/* Tweakdefs Section */}
-            {groupedByType.tweakdefs.length > 0 && (
-                <Stack gap='md'>
-                    <Group gap='xs'>
-                        <Title order={3}>Tweakdefs</Title>
-                        <TypeBadge type='tweakdefs' />
-                    </Group>
-
-                    {groupedByType.tweakdefs.map((option) => (
-                        <Stack key={option.configKey} gap='xs'>
-                            <Text fw={500}>{option.description}</Text>
-                            <Table striped highlightOnHover withTableBorder>
-                                <Table.Thead>
-                                    <Table.Tr>
-                                        <Table.Th style={{ width: '100px' }}>
-                                            Value
-                                        </Table.Th>
-                                        <Table.Th style={{ width: '180px' }}>
-                                            File(s)
-                                        </Table.Th>
-                                        <Table.Th>Base64 Data</Table.Th>
-                                    </Table.Tr>
-                                </Table.Thead>
-                                <Table.Tbody>
-                                    {option.values.map((v) => (
-                                        <Table.Tr key={v.value}>
-                                            <Table.Td>
-                                                <Code>{v.value}</Code>
-                                            </Table.Td>
-                                            <Table.Td>
-                                                <FileList
-                                                    paths={v.luaFilePaths}
-                                                    missing={v.missingFiles}
-                                                />
-                                            </Table.Td>
-                                            <Table.Td>
-                                                <DataPreview data={v.data} />
-                                            </Table.Td>
-                                        </Table.Tr>
-                                    ))}
-                                </Table.Tbody>
-                            </Table>
-                        </Stack>
-                    ))}
+            {configEntries.map((option) => (
+                <Stack key={option.configKey} gap='xs'>
+                    <Text fw={500}>{option.description}</Text>
+                    <Table striped withTableBorder>
+                        <Table.Thead>
+                            <Table.Tr>
+                                <Table.Th style={{ width: '150px' }}>
+                                    Value
+                                </Table.Th>
+                                <Table.Th>Data</Table.Th>
+                            </Table.Tr>
+                        </Table.Thead>
+                        <Table.Tbody>
+                            {option.values.map((v) => (
+                                <Table.Tr key={v.value}>
+                                    <Table.Td valign='top'>
+                                        <Code>{v.value}</Code>
+                                    </Table.Td>
+                                    <Table.Td>
+                                        {v.items.length === 0 ? (
+                                            <Text
+                                                size='sm'
+                                                c='dimmed'
+                                                fs='italic'
+                                            >
+                                                —
+                                            </Text>
+                                        ) : (
+                                            <Stack gap='xs'>
+                                                {v.items.map((item, idx) => (
+                                                    <DataItem
+                                                        key={`${item.type}-${item.source ?? idx}`}
+                                                        {...item}
+                                                    />
+                                                ))}
+                                            </Stack>
+                                        )}
+                                    </Table.Td>
+                                </Table.Tr>
+                            ))}
+                        </Table.Tbody>
+                    </Table>
                 </Stack>
-            )}
-
-            {/* Tweakunits Section */}
-            {groupedByType.tweakunits.length > 0 && (
-                <Stack gap='md'>
-                    <Group gap='xs'>
-                        <Title order={3}>Tweakunits</Title>
-                        <TypeBadge type='tweakunits' />
-                    </Group>
-
-                    {groupedByType.tweakunits.map((option) => (
-                        <Stack key={option.configKey} gap='xs'>
-                            <Text fw={500}>{option.description}</Text>
-                            <Table striped highlightOnHover withTableBorder>
-                                <Table.Thead>
-                                    <Table.Tr>
-                                        <Table.Th style={{ width: '100px' }}>
-                                            Value
-                                        </Table.Th>
-                                        <Table.Th style={{ width: '180px' }}>
-                                            File(s)
-                                        </Table.Th>
-                                        <Table.Th>Base64 Data</Table.Th>
-                                    </Table.Tr>
-                                </Table.Thead>
-                                <Table.Tbody>
-                                    {option.values.map((v) => (
-                                        <Table.Tr key={v.value}>
-                                            <Table.Td>
-                                                <Code>{v.value}</Code>
-                                            </Table.Td>
-                                            <Table.Td>
-                                                <FileList
-                                                    paths={v.luaFilePaths}
-                                                    missing={v.missingFiles}
-                                                />
-                                            </Table.Td>
-                                            <Table.Td>
-                                                <DataPreview data={v.data} />
-                                            </Table.Td>
-                                        </Table.Tr>
-                                    ))}
-                                </Table.Tbody>
-                            </Table>
-                        </Stack>
-                    ))}
-                </Stack>
-            )}
+            ))}
         </Stack>
     );
 }
