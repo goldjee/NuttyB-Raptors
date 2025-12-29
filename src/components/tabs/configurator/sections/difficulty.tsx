@@ -69,6 +69,16 @@ const DifficultySection: React.FC = () => {
                                 value={preset}
                                 radius='md'
                                 p='sm'
+                                bd={
+                                    preset === configuration.presetDifficulty
+                                        ? '1px solid var(--mantine-primary-color-filled)'
+                                        : undefined
+                                }
+                                bg={
+                                    preset === configuration.presetDifficulty
+                                        ? 'var(--mantine-primary-color-light)'
+                                        : undefined
+                                }
                             >
                                 <Stack gap='xs' style={{ flex: 1 }}>
                                     <Flex align='center' gap='md'>
