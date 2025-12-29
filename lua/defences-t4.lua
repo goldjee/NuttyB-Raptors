@@ -3,10 +3,28 @@
 -- bar-nuttyb-collective.github.io/configurator
 
 do
-    local unitDefs, tableMerge, unitName =
-        UnitDefs or {}, table.merge, 'armannit4'
+    local unitDefs, tableMerge = UnitDefs or {}, table.merge
 
-    unitDefs[unitName] = tableMerge(unitDefs['armannit3'], {
+    local function ensureBuildOption(builderName, optionName)
+        local builder = unitDefs[builderName]
+        local optionDef = optionName and unitDefs[optionName]
+        if not builder or not optionDef then
+            return
+        end
+
+        builder.buildoptions = builder.buildoptions or {}
+        for i = 1, #builder.buildoptions do
+            if builder.buildoptions[i] == optionName then
+                return
+            end
+        end
+
+        builder.buildoptions[#builder.buildoptions + 1] = optionName
+    end
+
+    -- Legendary Pulsar
+    local legPulsarName = 'armannit4'
+    unitDefs[legPulsarName] = tableMerge(unitDefs['armannit3'], {
         name = 'Legendary Pulsar',
         description = 'A pinnacle of Armada engineering that fires devastating, rapid-fire tachyon bolts.',
         buildtime = 300000,
@@ -63,6 +81,7 @@ do
         },
     })
 
+    -- Add to build options
     local builders_arm = {
         'armaca',
         'armack',
@@ -71,35 +90,17 @@ do
         'armt3airaide',
         'armt3aide',
     }
-    local function ensureBuildOption(builderName, optionName)
-        local builder = unitDefs[builderName]
-        local optionDef = optionName and unitDefs[optionName]
-        if not builder or not optionDef then
-            return
-        end
 
-        builder.buildoptions = builder.buildoptions or {}
-        for i = 1, #builder.buildoptions do
-            if builder.buildoptions[i] == optionName then
-                return
-            end
-        end
-
-        builder.buildoptions[#builder.buildoptions + 1] = optionName
-    end
     for i = 3, 10 do
         builders_arm[#builders_arm + 1] = 'armcomlvl' .. i
     end
     for _, builder_name in pairs(builders_arm) do
-        ensureBuildOption(builder_name, unitName)
+        ensureBuildOption(builder_name, legPulsarName)
     end
-end
 
-do
-    local unitDefs, tableMerge, unitName =
-        UnitDefs or {}, table.merge, 'legbastiont4'
-
-    unitDefs[unitName] = tableMerge(unitDefs['legbastion'], {
+    -- Legendary Bastion
+    local legBastionName = 'legbastiont4'
+    unitDefs[legBastionName] = tableMerge(unitDefs['legbastion'], {
         name = 'Legendary Bastion',
         description = 'The ultimate defensive emplacement. Projects a devastating, pulsating heatray.',
         health = 22000,
@@ -172,6 +173,7 @@ do
         },
     })
 
+    -- Add to build options
     local builders_leg = {
         'legaca',
         'legack',
@@ -180,35 +182,17 @@ do
         'legt3airaide',
         'legt3aide',
     }
-    local function ensureBuildOption(builderName, optionName)
-        local builder = unitDefs[builderName]
-        local optionDef = optionName and unitDefs[optionName]
-        if not builder or not optionDef then
-            return
-        end
 
-        builder.buildoptions = builder.buildoptions or {}
-        for i = 1, #builder.buildoptions do
-            if builder.buildoptions[i] == optionName then
-                return
-            end
-        end
-
-        builder.buildoptions[#builder.buildoptions + 1] = optionName
-    end
     for i = 3, 10 do
         builders_leg[#builders_leg + 1] = 'legcomlvl' .. i
     end
     for _, builder_name in pairs(builders_leg) do
-        ensureBuildOption(builder_name, unitName)
+        ensureBuildOption(builder_name, legBastionName)
     end
-end
 
-do
-    local unitDefs, tableMerge, unitName =
-        UnitDefs or {}, table.merge, 'legbastiont4'
-
-    unitDefs[unitName] = tableMerge(unitDefs['cordoomt3'], {
+    -- Legendary Bulwark
+    local legBulwarkName = 'cordoomt4'
+    unitDefs[legBulwarkName] = tableMerge(unitDefs['cordoomt3'], {
         name = 'Legendary Bulwark',
         description = 'A pinnacle of defensive technology, the Legendary Bulwark annihilates all who approach.',
         buildtime = 250000,
@@ -354,6 +338,7 @@ do
         },
     })
 
+    -- Add to build options
     local builders_cor = {
         'coraca',
         'corack',
@@ -362,26 +347,11 @@ do
         'cort3airaide',
         'cort3aide',
     }
-    local function ensureBuildOption(builderName, optionName)
-        local builder = unitDefs[builderName]
-        local optionDef = optionName and unitDefs[optionName]
-        if not builder or not optionDef then
-            return
-        end
 
-        builder.buildoptions = builder.buildoptions or {}
-        for i = 1, #builder.buildoptions do
-            if builder.buildoptions[i] == optionName then
-                return
-            end
-        end
-
-        builder.buildoptions[#builder.buildoptions + 1] = optionName
-    end
     for i = 3, 10 do
         builders_cor[#builders_cor + 1] = 'corcomlvl' .. i
     end
     for _, builder_name in pairs(builders_cor) do
-        ensureBuildOption(builder_name, unitName)
+        ensureBuildOption(builder_name, legBulwarkName)
     end
 end
