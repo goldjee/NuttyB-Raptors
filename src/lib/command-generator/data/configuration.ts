@@ -37,6 +37,11 @@ export interface Configuration {
     start: StartOption;
     lobbyName: string;
     isMegaNuke: boolean;
+    // Numeric multipliers
+    incomeMult: number;
+    buildDistMult: number;
+    buildPowerMult: number;
+    queenCount: number;
 }
 
 export const DEFAULT_CONFIGURATION: Configuration = {
@@ -46,4 +51,9 @@ export const DEFAULT_CONFIGURATION: Configuration = {
     start: 'No rush',
     lobbyName: '',
     isMegaNuke: false,
+    // Numeric multipliers
+    incomeMult: 1,
+    buildDistMult: 1.5,
+    buildPowerMult: 1,
+    queenCount: 8,
 };

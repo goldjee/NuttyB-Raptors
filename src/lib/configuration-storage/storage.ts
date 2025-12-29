@@ -34,28 +34,30 @@ export function getDefaultStoredConfiguration(): StoredConfiguration {
 
 /**
  * Validates stored configuration against current app version.
- * Returns the configuration if valid, or null if version mismatch.
+ * Merges stored config with defaults to ensure all fields exist.
  *
  * @param stored The stored configuration from localStorage
- * @returns The stored configuration if valid, null otherwise
+ * @returns The stored configuration merged with defaults, or null if invalid
  */
 export function validateStoredConfiguration(
     stored: StoredConfiguration
 ): StoredConfiguration | null {
-    const currentSha = getCurrentGitSha();
-
-    // Version mismatch - invalidate stored config
-    if (stored.gitSha !== currentSha) {
-        return null;
-    }
-
-    // Ensure configuration object has all required fields
-    // (handles cases where new fields were added in updates)
+    // Ensure configuration object exists
     if (!stored.configuration || typeof stored.configuration !== 'object') {
         return null;
     }
 
-    return stored;
+    // Merge stored config with defaults to ensure all fields exist
+    // (handles cases where new fields were added in updates)
+    const mergedConfiguration: Configuration = {
+        ...DEFAULT_CONFIGURATION,
+        ...stored.configuration,
+    };
+
+    return {
+        configuration: mergedConfiguration,
+        gitSha: getCurrentGitSha(),
+    };
 }
 
 /**

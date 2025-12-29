@@ -2,7 +2,13 @@
 
 import React from 'react';
 
-import { NativeSelect, Stack, TextInput, Title } from '@mantine/core';
+import {
+    NativeSelect,
+    NumberInput,
+    Stack,
+    TextInput,
+    Title,
+} from '@mantine/core';
 
 import { useConfiguratorContext } from '@/components/contexts/configurator-context';
 import {
@@ -44,6 +50,61 @@ const GeneralSection: React.FC = () => {
                         event.currentTarget.value as StartOption
                     )
                 }
+            />
+            <NumberInput
+                label='Resource income multiplier'
+                description='Multiplier for resource income (0.1 - 10)'
+                value={configuration.incomeMult}
+                onChange={(value) =>
+                    setProperty('incomeMult', Number(value) || 1)
+                }
+                min={0.1}
+                max={10}
+                step={0.1}
+                decimalScale={1}
+                allowNegative={false}
+                required
+            />
+            <NumberInput
+                label='Build distance multiplier'
+                description='Multiplier for build distance (0.5 - 10)'
+                value={configuration.buildDistMult}
+                onChange={(value) =>
+                    setProperty('buildDistMult', Number(value) || 1.5)
+                }
+                min={0.5}
+                max={10}
+                step={0.1}
+                decimalScale={1}
+                allowNegative={false}
+                required
+            />
+            <NumberInput
+                label='Build power multiplier'
+                description='Multiplier for build power (0.1 - 10)'
+                value={configuration.buildPowerMult}
+                onChange={(value) =>
+                    setProperty('buildPowerMult', Number(value) || 1)
+                }
+                min={0.1}
+                max={10}
+                step={0.1}
+                decimalScale={1}
+                allowNegative={false}
+                required
+            />
+            <NumberInput
+                label='Raptor queen count'
+                description='Number of raptor queens (1 - 100)'
+                value={configuration.queenCount}
+                onChange={(value) =>
+                    setProperty('queenCount', Number(value) || 8)
+                }
+                min={1}
+                max={100}
+                step={1}
+                allowNegative={false}
+                required
             />
         </Stack>
     );

@@ -52,8 +52,8 @@ export const BASE_COMMANDS = [
     '!experimentallegionfaction 1',
     '!experimentalshields bounceeverything',
     '!maxunits 10000',
-    '!multiplier_builddistance 1.5',
-    '!multiplier_buildpower 1',
+    '!bSet multiplier_builddistance $buildDistMult$',
+    '!bSet multiplier_buildpower $buildPowerMult$',
     '!multiplier_buildtimecost 1',
     '!multiplier_energyconversion 1',
     '!multiplier_energycost 1',
@@ -64,7 +64,7 @@ export const BASE_COMMANDS = [
     '!multiplier_metalcost 1',
     '!multiplier_metalextraction 1',
     '!multiplier_radarrange 1',
-    '!multiplier_resourceincome 1',
+    '!bSet multiplier_resourceincome $incomeMult$',
     '!multiplier_shieldpower 2',
     '!multiplier_turnrate 1',
     '!multiplier_weapondamage 1',
@@ -90,7 +90,7 @@ export const BASE_COMMANDS = [
     '!evocom 0',
     '!nowasting all',
     '!bSet unit_restrictions_nonukes 1',
-    '!bSet raptor_queen_count 8',
+    '!bSet raptor_queen_count $queenCount$',
     '!rename Community NuttyB [$presetDifficulty$] $?[$lobbyName$]?$',
     '!balance',
 ] as const;
@@ -264,7 +264,6 @@ export const CONFIGURATION_MAPPING: ValueMapping = {
                 command: [
                     '!raptor_queentimemult 1.3',
                     '!raptor_spawncountmult 3',
-                    '!bSet raptor_queen_count 12',
                     '!raptor_firstwavesboost 4',
                     '!raptor_graceperiodmult 3',
                 ],
@@ -310,5 +309,22 @@ export const CONFIGURATION_MAPPING: ValueMapping = {
             true: { tweakunits: ['~lua/mega-nuke.lua'] },
             false: undefined,
         },
+    },
+    // Numeric settings - handled via command templates, not value mapping
+    incomeMult: {
+        description: 'Resource income multiplier',
+        values: {},
+    },
+    buildDistMult: {
+        description: 'Build distance multiplier',
+        values: {},
+    },
+    buildPowerMult: {
+        description: 'Build power multiplier',
+        values: {},
+    },
+    queenCount: {
+        description: 'Raptor queen count',
+        values: {},
     },
 } as const;

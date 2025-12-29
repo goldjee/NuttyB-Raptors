@@ -153,6 +153,11 @@ export function buildTemplateContext(config: Configuration): TemplateContext {
         gameMap: config.gameMap,
         start: config.start,
         isMegaNuke: String(config.isMegaNuke),
+        // Numeric settings
+        incomeMult: String(config.incomeMult),
+        buildDistMult: String(config.buildDistMult),
+        buildPowerMult: String(config.buildPowerMult),
+        queenCount: String(config.queenCount),
     };
 }
 
