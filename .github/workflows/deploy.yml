@@ -55,7 +55,7 @@ jobs:
         run: bun run sync -p .
 
       - name: Run tests
-        run: bun run test
+        run: bun test
 
       - name: Build with Next.js
         run: bun run build

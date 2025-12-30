@@ -11,7 +11,7 @@ RUN apk --no-cache add git
 RUN cd /source && \
     bun install && \
     bun run sync -p . && \
-    bun run test && \
+    bun test && \
     bun run build
 
 # Create caddy container

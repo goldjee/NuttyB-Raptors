@@ -56,7 +56,7 @@ bun sync --help
 To run the tests, execute the following command:
 
 ```bash
-bun run test
+bun test
 ```
 
 ### Deployment (GitHub Pages)
