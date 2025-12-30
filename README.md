@@ -42,7 +42,7 @@ The app will be available at http://localhost:3000
 Whenever you make changes to the tweak source files, you need to generate the Lua bundle that Configurator will use. You can do this by running:
 
 ```bash
-bun run sync .
+bun run sync -p .
 ```
 
 Sync script supports pulling latest Lua files from either a local path or a GitHub repository. For more details, see the script's command-line help:
@@ -53,10 +53,10 @@ bun sync --help
 
 ### Verify Lua bundle
 
-To verify the generated Lua bundle, run the following command:
+To run the tests, execute the following command:
 
 ```bash
-bun run bundle-test
+bun run test
 ```
 
 ### Deployment (GitHub Pages)
