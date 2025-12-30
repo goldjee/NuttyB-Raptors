@@ -180,50 +180,58 @@ export default function Page() {
                 </Stack>
             </Stack>
 
-            {configEntries.map((option) => (
-                <Stack key={option.configKey} gap='xs'>
-                    <Text fw={500}>{option.description}</Text>
-                    <Table striped withTableBorder>
-                        <Table.Thead>
-                            <Table.Tr>
-                                <Table.Th style={{ width: '150px' }}>
-                                    Value
-                                </Table.Th>
-                                <Table.Th>Data</Table.Th>
-                            </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                            {option.values.map((v) => (
-                                <Table.Tr key={v.value}>
-                                    <Table.Td valign='top'>
-                                        <Code>{v.value}</Code>
-                                    </Table.Td>
-                                    <Table.Td>
-                                        {v.items.length === 0 ? (
-                                            <Text
-                                                size='sm'
-                                                c='dimmed'
-                                                fs='italic'
-                                            >
-                                                —
-                                            </Text>
-                                        ) : (
-                                            <Stack gap='xs'>
-                                                {v.items.map((item, idx) => (
-                                                    <DataItem
-                                                        key={`${item.type}-${item.source ?? idx}`}
-                                                        {...item}
-                                                    />
-                                                ))}
-                                            </Stack>
-                                        )}
-                                    </Table.Td>
+            {configEntries
+                .filter((option) => option.values.length > 0)
+                .map((option) => (
+                    <Stack key={option.configKey} gap='xs'>
+                        <Text fw={500}>{option.description}</Text>
+                        <Table striped withTableBorder>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th style={{ width: '150px' }}>
+                                        Value
+                                    </Table.Th>
+                                    <Table.Th>Data</Table.Th>
                                 </Table.Tr>
-                            ))}
-                        </Table.Tbody>
-                    </Table>
-                </Stack>
-            ))}
+                            </Table.Thead>
+                            <Table.Tbody>
+                                {option.values
+                                    .filter(
+                                        (v) => v.items && v.items.length > 0
+                                    )
+                                    .map((v) => (
+                                        <Table.Tr key={v.value}>
+                                            <Table.Td valign='top'>
+                                                <Code>{v.value}</Code>
+                                            </Table.Td>
+                                            <Table.Td>
+                                                {v.items.length === 0 ? (
+                                                    <Text
+                                                        size='sm'
+                                                        c='dimmed'
+                                                        fs='italic'
+                                                    >
+                                                        —
+                                                    </Text>
+                                                ) : (
+                                                    <Stack gap='xs'>
+                                                        {v.items.map(
+                                                            (item, idx) => (
+                                                                <DataItem
+                                                                    key={`${item.type}-${item.source ?? idx}`}
+                                                                    {...item}
+                                                                />
+                                                            )
+                                                        )}
+                                                    </Stack>
+                                                )}
+                                            </Table.Td>
+                                        </Table.Tr>
+                                    ))}
+                            </Table.Tbody>
+                        </Table>
+                    </Stack>
+                ))}
         </Stack>
     );
 }
