@@ -2,6 +2,7 @@ export const PRESET_DIFFICULTIES = ['Easy', 'Medium', 'Hard'] as const;
 export const CHALLENGES = [
     'None',
     'Mini Bosses',
+    'Mini Bosses Extended',
     'Experimental Wave Challenge',
 ] as const;
 export const MAPS = [
@@ -36,6 +37,9 @@ export interface Configuration {
     gameMap: GameMap;
     start: StartOption;
     lobbyName: string;
+    isEcoT4: boolean;
+    isRFLRPCRebalance: boolean;
+    isRFLRPCT4: boolean;
     isMegaNuke: boolean;
     // Numeric multipliers
     incomeMult: number;
@@ -50,6 +54,9 @@ export const DEFAULT_CONFIGURATION: Configuration = {
     gameMap: 'Full Metal Plate (12P)',
     start: 'No rush',
     lobbyName: '',
+    isEcoT4: true,
+    isRFLRPCRebalance: true,
+    isRFLRPCT4: true,
     isMegaNuke: false,
     // Numeric multipliers
     incomeMult: 1,

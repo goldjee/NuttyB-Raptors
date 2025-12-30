@@ -21,8 +21,11 @@ export const LUA_PRIORITIES: Record<string, number> = {
     'lua/cross-faction-t2.lua': 7,
     'lua/lrpc-rebalance.lua': 7,
     'lua/eco-t3.lua': 8,
-    'lua/air-rework-t4.lua': 8,
-    'lua/unit-launchers.lua': 9,
+    '~lua/eco-t4.lua': 9,
+    '~lua/rflrpc-rebalance.lua': 10,
+    '~lua/rflrpc-t4.lua': 11,
+    'lua/air-rework-t4.lua': 12,
+    'lua/unit-launchers.lua': 13,
 } as const;
 
 /**
@@ -149,6 +152,9 @@ export const CONFIGURATION_MAPPING: ValueMapping = {
         values: {
             None: undefined,
             'Mini Bosses': { tweakdefs: ['~lua/mini-bosses.lua'] },
+            'Mini Bosses Extended': {
+                tweakdefs: ['~lua/mini-bosses-extended.lua'],
+            },
             'Experimental Wave Challenge': {
                 tweakunits: ['~lua/wave-challenge.lua'],
             },
@@ -301,6 +307,27 @@ export const CONFIGURATION_MAPPING: ValueMapping = {
         description: 'Custom lobby name',
         values: {
             '': undefined, // Empty string means no custom name - handled dynamically
+        },
+    },
+    isEcoT4: {
+        description: 'T4 Economy',
+        values: {
+            true: { tweakdefs: ['~lua/eco-t4.lua'] },
+            false: undefined,
+        },
+    },
+    isRFLRPCRebalance: {
+        description: 'RFLRPC Rebalance',
+        values: {
+            true: { tweakunits: ['~lua/rflrpc-rebalance.lua'] },
+            false: undefined,
+        },
+    },
+    isRFLRPCT4: {
+        description: 'Epic RFLRPC',
+        values: {
+            true: { tweakdefs: ['~lua/rflrpc-t4.lua'] },
+            false: undefined,
         },
     },
     isMegaNuke: {
