@@ -305,9 +305,7 @@ export const CONFIGURATION_MAPPING: ValueMapping = {
     },
     lobbyName: {
         description: 'Custom lobby name',
-        values: {
-            '': undefined, // Empty string means no custom name - handled dynamically
-        },
+        values: {},
     },
     isEcoT4: {
         description: 'T4 Economy',
