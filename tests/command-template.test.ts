@@ -144,7 +144,7 @@ describe('interpolateCommandTemplate', () => {
     });
 
     describe('rename command template', () => {
-        const renameTemplate = '!rename Community NuttyB $?[$lobbyName$]?$';
+        const renameTemplate = '!rename NuttyB CE $?[$lobbyName$]?$';
 
         test('generates command with lobby name', () => {
             expect(
@@ -152,7 +152,7 @@ describe('interpolateCommandTemplate', () => {
                     presetDifficulty: 'Medium',
                     lobbyName: 'My Game',
                 })
-            ).toBe('!rename Community NuttyB [My Game]');
+            ).toBe('!rename NuttyB CE [My Game]');
         });
 
         test('generates command without lobby name', () => {
@@ -161,7 +161,7 @@ describe('interpolateCommandTemplate', () => {
                     presetDifficulty: 'Medium',
                     lobbyName: '',
                 })
-            ).toBe('!rename Community NuttyB');
+            ).toBe('!rename NuttyB CE');
         });
     });
 });
@@ -192,7 +192,7 @@ describe('interpolateCommands', () => {
     test('interpolates template commands', () => {
         const commands = [
             '!preset coop',
-            '!rename Community NuttyB $?[$lobbyName$]?$',
+            '!rename NuttyB CE $?[$lobbyName$]?$',
             '!balance',
         ];
 
@@ -200,7 +200,7 @@ describe('interpolateCommands', () => {
 
         expect(result).toEqual([
             '!preset coop',
-            '!rename Community NuttyB [Raptors [Mini Bosses][1_5x QHP 1_5x HP][No Mex]]',
+            '!rename NuttyB CE [Raptors [Mini Bosses][1_5x QHP 1_5x HP][No Mex]]',
             '!balance',
         ]);
     });
@@ -216,7 +216,7 @@ describe('interpolateCommands', () => {
     test('handles mixed template and non-template commands', () => {
         const commands = [
             '!preset coop',
-            '!rename Community NuttyB $?[$lobbyName$]?$',
+            '!rename NuttyB CE $?[$lobbyName$]?$',
             '!teamsize 12',
         ];
 
@@ -230,7 +230,7 @@ describe('interpolateCommands', () => {
 
         expect(result).toEqual([
             '!preset coop',
-            '!rename Community NuttyB [Epic Battle]',
+            '!rename NuttyB CE [Epic Battle]',
             '!teamsize 12',
         ]);
     });

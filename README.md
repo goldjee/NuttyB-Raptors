@@ -1,6 +1,6 @@
-# 🦖 Community NuttyB
+# 🦖 NuttyB CE
 
-Community NuttyB is a mod for Beyond All Reason RTS, which pushes Raptors PvE gameplay to its limits. It's the hard work of many people that developed various tweaks to make the game more challenging. There are lots of new buildings and weapons to discover, and the mod is constantly evolving with new content and improvements.
+NuttyB CE is a mod for Beyond All Reason RTS, which pushes Raptors PvE gameplay to its limits. It's the hard work of many people that developed various tweaks to make the game more challenging. There are lots of new buildings and weapons to discover, and the mod is constantly evolving with new content and improvements.
 
 This is a monorepo that contains:
 
@@ -9,7 +9,7 @@ This is a monorepo that contains:
 
 ## 🎮 How to play
 
-Go to the [Community NuttyB Configurator](https://nuttyb-community.github.io/nuttyb/) page, pick your desired tweaks and copy the commands generated. Next, host a new lobby and paste the commands into its chat. All set!
+Go to the [NuttyB CE Configurator](https://nuttyb-community.github.io/nuttyb/) page, pick your desired tweaks and copy the commands generated. Next, host a new lobby and paste the commands into its chat. All set!
 
 ## 📚 Documentation
 

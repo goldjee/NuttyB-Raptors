@@ -25,12 +25,12 @@ export default function Page() {
         <Stack gap='sm'>
             <Title order={2}>About this project</Title>
             <Text size='sm'>
-                Community NuttyB is a mod for Beyond All Reason RTS, which
-                pushes Raptors PvE gameplay to its limits. It&apos;s the hard
-                work of many people that developed various tweaks to make the
-                game more challenging. There are lots of new buildings and
-                weapons to discover, and the mod is constantly evolving with new
-                content and improvements.
+                NuttyB CE is a mod for Beyond All Reason RTS, which pushes
+                Raptors PvE gameplay to its limits. It&apos;s the hard work of
+                many people that developed various tweaks to make the game more
+                challenging. There are lots of new buildings and weapons to
+                discover, and the mod is constantly evolving with new content
+                and improvements.
             </Text>
 
             <Title order={2}>How to play</Title>
@@ -138,7 +138,7 @@ export default function Page() {
                         href='https://github.com/nuttyb-community/nuttyb/'
                         target='_blank'
                     >
-                        NuttyB Community GitHub Repository
+                        NuttyB CE GitHub Repository
                     </Anchor>
                     . The main repository for this project. You can report bugs
                     and request new features here.

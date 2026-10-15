@@ -1,6 +1,6 @@
 # Changelog
 
-Notable changes to the Community NuttyB configurator and tweaks, grouped by date with
+Notable changes to the NuttyB CE configurator and tweaks, grouped by date with
 the newest first. Entries are curated to highlight what's relevant to players and repo
 visitors. To scaffold a draft from recent commits, run `bun run changelog-draft`.
 
@@ -9,6 +9,8 @@ visitors. To scaffold a draft from recent commits, run `bun run changelog-draft`
 - Fixed T3 Construction Turrets jumping away from their build spot and jittering next to walls and small defences. A recent BAR anti-stacking change started treating them as stacked whenever a small structure stood next to them.
 - Updated About page with links to newer versions of the widgets that support the latest BAR Security Update.
 - Fixed the broken Raptor Panel and Raptor Notifications links.
+- Updated the lobby name to a shorter version.
+- Set draft order to fair, allowing everyone to load first.
 
 ## 2026-07-02
 

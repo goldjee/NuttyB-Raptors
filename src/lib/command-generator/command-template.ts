@@ -9,13 +9,13 @@
  * - $?content?$ : Optional section, removed entirely if any $variable$ inside is empty
  *
  * @example
- * // Template: '!rename Community NuttyB [$presetDifficulty$] $?[$lobbyName$]?$'
+ * // Template: '!rename NuttyB CE [$presetDifficulty$] $?[$lobbyName$]?$'
  * //
  * // With { presetDifficulty: 'Medium', lobbyName: 'My Game' }
- * // -> '!rename Community NuttyB [Medium] [My Game]'
+ * // -> '!rename NuttyB CE [Medium] [My Game]'
  * //
  * // With { presetDifficulty: 'Medium', lobbyName: '' }
- * // -> '!rename Community NuttyB [Medium]'
+ * // -> '!rename NuttyB CE [Medium]'
  */
 
 import {
@@ -122,10 +122,10 @@ function replaceRequiredVariables(
  *
  * @example
  * interpolateCommandTemplate(
- *     '!rename Community NuttyB [$presetDifficulty$] $?[$lobbyName$]?$',
+ *     '!rename NuttyB CE [$presetDifficulty$] $?[$lobbyName$]?$',
  *     { presetDifficulty: 'Medium', lobbyName: '' }
  * )
- * // Returns: '!rename Community NuttyB [Medium]'
+ * // Returns: '!rename NuttyB CE [Medium]'
  */
 export function interpolateCommandTemplate(
     template: string,

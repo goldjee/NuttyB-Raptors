@@ -4,7 +4,7 @@ This file provides guidance to LLM agents when working with code in this reposit
 
 ## Project Overview
 
-Community NuttyB is a monorepo containing:
+NuttyB CE is a monorepo containing:
 
 - Lua tweaks for the NuttyB mod for Beyond All Reason (BAR) game (`lua/` directory)
 - A Next.js web application (Configurator) that generates custom mod configurations (`src/` directory)

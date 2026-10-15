@@ -53,11 +53,11 @@ export const Configurator: React.FC = () => {
             </Flex>
 
             <Text size='sm'>
-                Community NuttyB pushes Raptors PvE gameplay to its limits.
-                It&apos;s the hard work of many people that developed various
-                tweaks to make the game more challenging. Pick your desired
-                tweaks and copy the commands generated. Next, host a new lobby
-                and paste the commands into its chat.
+                NuttyB CE pushes Raptors PvE gameplay to its limits. It&apos;s
+                the hard work of many people that developed various tweaks to
+                make the game more challenging. Pick your desired tweaks and
+                copy the commands generated. Next, host a new lobby and paste
+                the commands into its chat.
             </Text>
             <PresetShowcase />
             <Divider />

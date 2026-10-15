@@ -99,7 +99,8 @@ export const BASE_COMMANDS = [
     '!nowasting all',
     '!bSet unit_restrictions_nonukes 1',
     '!bSet raptor_queen_count $queenCount$',
-    '!rename Community NuttyB $?[$lobbyName$]?$',
+    '!rename NuttyB CE $?[$lobbyName$]?$',
+    '!bSet draft_mode fair',
     '!balance',
 ] as const;
 
