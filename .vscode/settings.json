@@ -9,7 +9,6 @@
     "code-runner.saveAllFilesBeforeRun": true,
     "code-runner.saveFileBeforeRun": true,
     "trailing-spaces.trimOnSave": true,
-    "Lua.diagnostics.globals": ["UnitDefs", "Spring"],
     "makefile.configureOnOpen": false,
     "stylua.targetReleaseVersion": "latest",
     "editor.formatOnSaveMode": "modificationsIfAvailable",
