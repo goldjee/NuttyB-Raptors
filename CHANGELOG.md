@@ -6,6 +6,7 @@ visitors. To scaffold a draft from recent commits, run `bun run changelog-draft`
 
 ## 2026-10-18
 
+- Adapted tweaks and ideas from Willzyboi's configurator, with the T4 Elysium by Pyrem.
 - Choose which combat unit tiers can be built. Only T3 by default.
 - One T3 Unit Launcher replaces the faction launchers. The Epic Tumbleweed launcher is optional.
 - New T4 Elysium shield.
@@ -15,7 +16,6 @@ visitors. To scaffold a draft from recent commits, run `bun run changelog-draft`
 - Adjustable T3 aide cap, 10 by default.
 - New Performance section with lighter weapon and death effects.
 - Fixed a bug that could stop a tweak slot from loading in game.
-- Adapted tweaks from Willzyboi's configurator, with the T4 Elysium by Pyrem.
 
 ## 2026-10-17
 
