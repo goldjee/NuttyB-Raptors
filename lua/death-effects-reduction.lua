@@ -42,6 +42,22 @@ do
         end
     end
 
+    local function silence(base)
+        local silent = copy(base)
+        silent.explosiongenerator = 'custom:blank'
+        silent.cegtag = ''
+        silent.camerashake = 0
+        return silent
+    end
+
+    -- BAR resolves explodeas to <unit>_<name> first, then to the global name,
+    -- so one armed unit can hold the silent copies for everyone
+    local carrierName = 'armcom'
+    local carrier = unitDefs[carrierName]
+    if carrier and not carrier.weapondefs then
+        carrier = nil
+    end
+
     for _, unitDef in pairs(unitDefs) do
         -- Debris and crash particles
         unitDef.sfxtypes = unitDef.sfxtypes or {}
@@ -60,20 +76,24 @@ do
         end
 
         -- Death explosions: a silent copy keeps the damage and area
-        unitDef.weapondefs = unitDef.weapondefs or {}
         for _, key in ipairs({ 'explodeas', 'selfdestructas' }) do
             local name = unitDef[key]
             if type(name) == 'string' and name ~= '' then
-                local base = unitDef.weapondefs[string.lower(name)]
-                    or explosions[string.lower(name)]
-                if base then
-                    local silent = copy(base)
-                    silent.explosiongenerator = 'custom:blank'
-                    silent.cegtag = ''
-                    silent.camerashake = 0
+                name = string.lower(name)
+                local own = (unitDef.weapondefs or {})[name]
+                if own then
+                    -- Already armed, so one more weapondef changes nothing
                     local alias = 'nuttyb_quiet_' .. key
-                    unitDef.weapondefs[alias] = silent
+                    unitDef.weapondefs[alias] = silence(own)
                     unitDef[key] = alias
+                elseif explosions[name] and carrier then
+                    -- Shared explosions go on the carrier: a weapondef on an
+                    -- unarmed unit would make BAR treat it as armed (WEAPON
+                    -- category, antinukes no longer blocked by "No nukes")
+                    local alias = 'nuttyb_quiet_' .. name
+                    carrier.weapondefs[alias] = carrier.weapondefs[alias]
+                        or silence(explosions[name])
+                    unitDef[key] = carrierName .. '_' .. alias
                 end
             end
         end
