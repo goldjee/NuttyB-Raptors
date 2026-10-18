@@ -15,7 +15,7 @@ visitors. To scaffold a draft from recent commits, run `bun run changelog-draft`
 - Adjustable T3 aide cap, 10 by default.
 - New Performance section with lighter weapon and death effects.
 - Fixed a bug that could stop a tweak slot from loading in game.
-- Adapted from [Willzyboi's configurator](https://github.com/willzyboi/nuttyb), with the T4 Elysium by Pyrem.
+- Adapted tweaks from Willzyboi's configurator, with the T4 Elysium by Pyrem.
 
 ## 2026-10-17
 
