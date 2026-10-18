@@ -36,6 +36,9 @@ do
                     metalpershot = 15000,
                     energypershot = 180000,
                     reloadtime = 0.5,
+                    -- land on the ground: BAR detonates spawns from bursts >32 elmos up (e.g. on a raptor hitbox)
+                    collideenemy = false,
+                    collidefeature = false,
                     customparams = {
                         stockpilelimit = 50,
                         spawns_name = 'armbanth corjugg corkorg legeheatraymech',
