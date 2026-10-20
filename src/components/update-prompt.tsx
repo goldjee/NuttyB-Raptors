@@ -14,7 +14,7 @@ import {
 
 import { PageWrapper } from '@/components/page-wrapper';
 
-const CHECK_INTERVAL_MS = 1000;
+const CHECK_INTERVAL_MS = 10 * 60 * 1000;
 
 /** Prompts for a reload once the deployed version.txt (written by next.config.ts) differs from this bundle's SHA */
 export const UpdatePrompt: React.FC = () => {
